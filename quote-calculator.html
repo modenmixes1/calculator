@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Moden Mixes Quote Calculator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    label, input, select { display: block; margin: 10px 0; }
+    input[type="checkbox"] { display: inline; }
+    #quote { font-weight: bold; font-size: 1.4em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Moden Mixes Quote Calculator</h1>
+
+  <label>Number of Guests:
+    <input type="number" id="guests" value="50">
+  </label>
+
+  <label>Event Duration (Hours):
+    <input type="number" id="hours" value="4">
+  </label>
+
+  <label><input type="checkbox" id="cocktail"> Signature Cocktail Menu (+$100)</label>
+  <label><input type="checkbox" id="mocktail"> Mocktail/Kids' Bar (+$125)</label>
+  <label><input type="checkbox" id="customCups"> Personalized Cups/Menu (+$150)</label>
+
+  <label>Travel Distance Beyond 20 Miles (One Way):
+    <input type="number" id="extraMiles" value="0">
+  </label>
+
+  <button onclick="calculateQuote()">Calculate Quote</button>
+
+  <div id="quote"></div>
+
+  <script>
+    function calculateQuote() {
+      const guests = parseInt(document.getElementById("guests").value);
+      const hours = parseInt(document.getElementById("hours").value);
+      const extraMiles = parseInt(document.getElementById("extraMiles").value);
+      const cocktail = document.getElementById("cocktail").checked;
+      const mocktail = document.getElementById("mocktail").checked;
+      const customCups = document.getElementById("customCups").checked;
+
+      const bartender = 30 * hours;
+      const mashgiach = 25 * hours;
+      const barRental = 175;
+      let supplies = guests <= 50 ? 75 : guests <= 100 ? 125 : 175;
+
+      let baseCost = bartender + mashgiach + barRental + supplies;
+
+      let addOns = 0;
+      if (cocktail) addOns += 100;
+      if (mocktail) addOns += 125;
+      if (customCups) addOns += 150;
+      addOns += extraMiles * 1;
+
+      let totalCost = baseCost + addOns;
+
+      let price = Math.round(totalCost / (1 - 0.6)); // 60% profit
+
+      document.getElementById("quote").innerText = "Suggested Quote: $" + price;
+    }
+  </script>
+</body>
+</html>
